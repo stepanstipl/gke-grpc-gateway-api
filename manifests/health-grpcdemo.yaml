@@ -1,0 +1,14 @@
+apiVersion: networking.gke.io/v1
+kind: HealthCheckPolicy
+metadata:
+  name: grpcdemo-hc
+spec:
+  default:
+    config:
+      type: HTTP2
+      http2HealthCheck:
+        requestPath: /healthz
+  targetRef:
+    group: ""
+    kind: Service
+    name: grpcdemo

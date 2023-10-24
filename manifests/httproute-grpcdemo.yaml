@@ -1,0 +1,14 @@
+apiVersion: gateway.networking.k8s.io/v1beta1
+kind: HTTPRoute
+metadata:
+  name: grpcdemo
+spec:
+  parentRefs:
+  - kind: Gateway
+    name: grpcdemo
+  hostnames:
+          - grpcdemo.example.com
+  rules:
+  - backendRefs:
+    - name: grpcdemo
+      port: 8443

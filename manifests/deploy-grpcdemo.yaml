@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: grpcdemo
+  labels:
+    app: grpcdemo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: grpcdemo
+  template:
+    metadata:
+      labels:
+        app: grpcdemo
+    spec:
+      containers:
+      - name: grpcdemo
+        image: quay.io/stepanstipl/gke-grpc-stream:1
+        ports:
+        - containerPort: 8080
+        resources:
+          requests:
+            cpu: "500m"
+            memory: "1Gi"
+          limits:
+            cpu: "500m"
+            memory: "1Gi"
+      - name: envoy
+        image: envoyproxy/envoy:v1.26-latest
+        ports:
+        - containerPort: 8443
+        resources:
+          requests:
+            cpu: "500m"
+            memory: "1Gi"
+          limits:
+            cpu: "500m"
+            memory: "1Gi"
+        volumeMounts:
+        - name: envoy-config
+          mountPath: /etc/envoy/envoy.yaml
+          subPath: envoy.yaml
+        - name: grpcdemo-tls
+          mountPath: /etc/certs
+      volumes:
+      - name: envoy-config
+        configMap:
+          name: envoy-config
+      - name: grpcdemo-tls
+        secret:
+          secretName: grpcdemo-tls
