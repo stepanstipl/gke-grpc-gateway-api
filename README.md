@@ -2,7 +2,7 @@
 
 Steps to deploy gRPC server streaming service running on GKE behind Google's
 Global External Application Load Balancer using the Gateway API, Google-managed
-certificates and Envoy proxy for TLS termination at the backends.
+certificate and Envoy proxy for TLS termination at the backends.
 
 ## Prerequisites
 
@@ -20,7 +20,7 @@ You'll also need working DNS subdomain to point to the load balancer IP.
     --global
   ```
 
-- Point the public DNS to record the previously created global IP (I'll be
+- Point the public DNS to the previously created global IP (I'll be
   using `grpcdemo.example.com`)
 
 - Create Google-managed SSL certificate
@@ -36,6 +36,7 @@ You'll also need working DNS subdomain to point to the load balancer IP.
   $ openssl req -x509 -new -key key.pem -out cert.pem -days 3650 -subj '/CN=internal'
   ```
   TLS is required both between client and GFE, as well as GFE and backend [^2].
+
   **Important:** The certificate has to use one of supported signatures
   compatible with BoringSSL, see [^3][^4] for more details. 
 
