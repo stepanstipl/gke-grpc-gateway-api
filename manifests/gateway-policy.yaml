@@ -1,0 +1,16 @@
+apiVersion: networking.gke.io/v1
+kind: GCPBackendPolicy
+metadata:
+  name: grpcdemo
+spec:
+  default:
+    timeoutSec: 1800
+    connectionDraining:
+      drainingTimeoutSec: 1800
+    sessionAffinity:
+      type: CLIENT_IP
+  targetRef:
+    group: ""
+    kind: Service
+    name: grpcdemo
+# NOTE: Namespace is required or it thinks you mean the "default" namespace
